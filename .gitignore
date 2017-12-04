@@ -11,3 +11,6 @@ packages.config
 *.filters
 Scanner04.vcxproj
 untitled.mtl
+Debug/DepthProcesser.obj
+Debug/DepthProcesser.obj
+Debug/Main.obj
