@@ -1,4 +1,3 @@
-Debug/*.obj
 *.enc
 Debug/Scanner04.Build.CppClean.log
 *.tlog
@@ -11,7 +10,4 @@ packages.config
 *.filters
 Scanner04.vcxproj
 untitled.mtl
-Debug/DepthProcesser.obj
-Debug/DepthProcesser.obj
-Debug/Main.obj
-Debug/DepthProcesser.obj
+Debug/*.obj
