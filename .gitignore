@@ -1,0 +1,13 @@
+*.obj
+*.enc
+Debug/Scanner04.Build.CppClean.log
+*.tlog
+frames/example0.txt
+*.txt
+*.log
+Debug/vc140.idb
+*.pdb
+packages.config
+*.filters
+Scanner04.vcxproj
+untitled.mtl
