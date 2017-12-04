@@ -1,4 +1,3 @@
-*.obj
 *.enc
 Debug/Scanner04.Build.CppClean.log
 *.tlog
