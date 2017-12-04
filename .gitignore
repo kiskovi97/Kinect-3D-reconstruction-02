@@ -10,4 +10,3 @@ packages.config
 *.filters
 Scanner04.vcxproj
 untitled.mtl
-Debug/*.obj
