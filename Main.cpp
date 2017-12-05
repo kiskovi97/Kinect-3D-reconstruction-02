@@ -61,11 +61,11 @@ int main() {
 	//depthproc.InitialFromFile(10);
 	//depthproc.ClearKimenet();
 	depthproc.WriteOutPontok(100);
-	for (int i = 23; i < 37; i++) {
+	for (int i = 30; i < 37; i++) {
 		std::cout << i << ". fajl:" << std::endl;
 		readOneExample(i);
 		std::cout << "	process begin" << std::endl;
-		depthproc.Process(tomb, width, height, i-23);
+		depthproc.Process(tomb, width, height, i-5);
 		std::cout << "	process end" << std::endl;
 		std::cout << "		pontok kiras kezdodik" << std::endl;
 		depthproc.WriteOutPontok(i);

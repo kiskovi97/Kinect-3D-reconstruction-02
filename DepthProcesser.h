@@ -18,7 +18,7 @@
 #define DEPTH_MAX 800
 #define SMOOTH 7
 #define SMOOTHALPHA 0.5
-#define SURUSEG 3
+#define SURUSEG 6
 #define SURUSEG2 1
 #define SURUSEG3 0
 #define ICP_PONTOK 10000
