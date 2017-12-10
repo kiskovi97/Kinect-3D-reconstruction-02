@@ -18,12 +18,13 @@
 #define DEPTH_MAX 800
 #define SMOOTH 7
 #define SMOOTHALPHA 0.5
-#define SURUSEG 6
-#define SURUSEG2 1
-#define SURUSEG3 0
+#define SURUSEG_SZURESELEJEN 0
+#define SURUSEG_NEWPONTOK 10
+#define SURUSEG_MARCHINGCUBES 0
 #define ICP_PONTOK 10000
 #define ICPITERATION 25
 #define HIBATURES 0.01
+#define INITIALLOG "17_12_04/TeljesPontok"
 
 typedef unsigned short uint16;
 typedef unsigned int uint32;

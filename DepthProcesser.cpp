@@ -48,7 +48,7 @@ void DepthProcesser::InitialFromFile(int frameNumber) {
 	double c;
 	std::ostringstream oss;
 	oss << frameNumber;
-	std::ifstream infile("17_12_03/Pontok" + oss.str() + ".obj");
+	std::ifstream infile(INITIALLOG + oss.str() + ".obj");
 	if (infile) {
 		std::string s;
 		infile >> s;
@@ -70,8 +70,7 @@ void DepthProcesser::InitialFromFile(int frameNumber) {
 				int x = pont.x / XFaktor + WIDTH / 2;
 				int y = pont.y / YFaktor + HEIGHT / 2;
 				int z = pont.z / ZFaktor;
-				if (kimenet[x][y][z] == ( SURUSEG)) 
-					eddigipontok.push_back(pont);
+				eddigipontok.push_back(pont);
 				kimenet[x][y][z] ++;
 			}
 			if (!(infile >> s)) break;
@@ -138,14 +137,14 @@ void DepthProcesser::MarchingCubes() {
 
 //Ez a fuggveny generalja le egy darab kockara a haromszogeket
 void DepthProcesser::MCube(int x, int y, int z) {
-	bool A = kimenet[x][y][z] > SURUSEG3;
-	bool B = kimenet[x+1][y][z] > SURUSEG3;
-	bool C = kimenet[x+1][y][z+1] > SURUSEG3;
-	bool D = kimenet[x][y][z+1] > SURUSEG3;
-	bool E = kimenet[x][y+1][z] > SURUSEG3;
-	bool F = kimenet[x+1][y+1][z] > SURUSEG3;
-	bool G = kimenet[x+1][y+1][z+1] > SURUSEG3;
-	bool H = kimenet[x][y+1][z+1] > SURUSEG3;
+	bool A = kimenet[x][y][z] > SURUSEG_MARCHINGCUBES;
+	bool B = kimenet[x+1][y][z] > SURUSEG_MARCHINGCUBES;
+	bool C = kimenet[x+1][y][z+1] > SURUSEG_MARCHINGCUBES;
+	bool D = kimenet[x][y][z+1] > SURUSEG_MARCHINGCUBES;
+	bool E = kimenet[x][y+1][z] > SURUSEG_MARCHINGCUBES;
+	bool F = kimenet[x+1][y+1][z] > SURUSEG_MARCHINGCUBES;
+	bool G = kimenet[x+1][y+1][z+1] > SURUSEG_MARCHINGCUBES;
+	bool H = kimenet[x][y+1][z+1] > SURUSEG_MARCHINGCUBES;
 
 	std::vector<int> triangles = mcb.Haromszogek(A + B * 2 + C * 4 + D * 8 + E * 16 + F * 32 + G * 64 + H * 128);
 	if (triangles.size()>0)
@@ -181,14 +180,6 @@ void DepthProcesser::WriteOutHaromszogek() {
 		myfile << "v " << har[1].x << " " << har[1].y << " " << har[1].z << std::endl;
 		myfile << "v " << har[2].x << " " << har[2].y << " " << har[2].z << std::endl;
 	}
-	/*
-	for (std::vector<vec3> har : haromszogek)
-	{
-		myfile << "vn " << har[3].x << " " << har[3].y << " " << har[3].z << std::endl;
-		myfile << "vn " << har[3].x << " " << har[3].y << " " << har[3].z << std::endl;
-		myfile << "vn " << har[3].x << " " << har[3].y << " " << har[3].z << std::endl;
-	}
-	*/
 	myfile << "usemtl Material01" << std::endl;
 	myfile << "s 1" << std::endl;
 	int i = 0;
@@ -231,7 +222,7 @@ void DepthProcesser::AddNewPoint() {
 			int x = point.x / XFaktor + WIDTH / 2;
 			int y = point.y / YFaktor + HEIGHT / 2;
 			int z = point.z / ZFaktor;
-			if (kimenet[x][y][z] < SURUSEG2)
+			if (kimenet[x][y][z] < SURUSEG_NEWPONTOK)
 			{
 				eddigipontok.push_back(point);
 			}
@@ -245,6 +236,10 @@ void DepthProcesser::AddNewPoint() {
 void DepthProcesser::VizsszintbeHozas() {
 	int maxDepthI = 0;
 	int minDepthI = 0;
+	if (eddigipontok.empty()) {
+		std::cout << "Nem sikerult a Vizszintesbe hozas, mert nincsenek pontok" << std::endl;
+		return;
+	}
 	for (int i = 0; i < eddigipontok.size(); i++)
 	{
 		if (eddigipontok.at(i).z>eddigipontok.at(maxDepthI).z) maxDepthI = i;
@@ -344,10 +339,6 @@ void DepthProcesser::Process(uint16* depthfield,const int m_depthWidth,const int
 		float mx = depthfield[i]*1.0f * ((x - (m_depthWidth / 2))*(1.0f) / (2.0f * m_Depth));
 		irany=irany.normalize();
 		vec3 pont = cam.forward.normalize()*(depthfield[i] / 3.0f) + cam.right.normalize()*mx + cam.up.normalize()*my + cam.position;
-		//pont = pont*0.01f;
-
-		//pontok.push_back(pont);
-
 		// pontok helyenek kerekitese egy adott racsra
 		
 		int XFaktor = (WIDTH_MAX / WIDTH) * 2;
@@ -357,15 +348,13 @@ void DepthProcesser::Process(uint16* depthfield,const int m_depthWidth,const int
 			int x = pont.x / XFaktor + WIDTH/2;
 			int y = pont.y / YFaktor + HEIGHT/2;
 			int z = pont.z / ZFaktor;
-			if (array3D[x][y][z]  == SURUSEG ) pontok.push_back(pont);
+			if (array3D[x][y][z]  >= SURUSEG_SZURESELEJEN ) pontok.push_back(pont);
 			array3D[x][y][z] ++;
 		}
 	}
 	
 	time_t rawtime;
 	struct tm * timeinfo;
-
-	
 
 	// ICP kiszamolasa
 	

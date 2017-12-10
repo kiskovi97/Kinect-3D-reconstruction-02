@@ -54,14 +54,12 @@ int main() {
 	int indexek[] = {
 		0,2,4,7,8,9,10,11,12,13
 	};
-	
-
 	std::cout << "Program elindult" << endl;
 	DepthProcesser depthproc;
-	//depthproc.InitialFromFile(10);
+	//depthproc.InitialFromFile(19);
 	//depthproc.ClearKimenet();
-	depthproc.WriteOutPontok(100);
-	for (int i = 30; i < 37; i++) {
+	//depthproc.WriteOutPontok(100);
+	for (int i = 0; i < 1; i++) {
 		std::cout << i << ". fajl:" << std::endl;
 		readOneExample(i);
 		std::cout << "	process begin" << std::endl;
@@ -72,7 +70,6 @@ int main() {
 		delete[] tomb;
 	}
 	depthproc.VizsszintbeHozas();
-	
 	depthproc.WriteOutPontok(101);
 	/* Marching Cubes */
 	std::cout << "The Math has begin" << std::endl;
@@ -81,7 +78,6 @@ int main() {
 	/* kiírás obj-be */
 	depthproc.WriteOutHaromszogek();
 	std::cout << "Written Out" << std::endl;
-	
 	std::cout << "Vegzett" << std::endl;
 	int a;
 	std::cin >> a;
